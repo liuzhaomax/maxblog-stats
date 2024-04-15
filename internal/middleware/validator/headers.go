@@ -3,7 +3,7 @@ package validator
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/wire"
-	"github.com/liuzhaomax/go-maxms/internal/core"
+	"github.com/liuzhaomax/maxblog-stats/internal/core"
 	"github.com/redis/go-redis/v9"
 	"net/http"
 )

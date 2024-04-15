@@ -1,8 +1,8 @@
 package schema
 
 import (
-	"github.com/liuzhaomax/go-maxms/internal/core"
-	"github.com/liuzhaomax/go-maxms/src/api_user/model"
+	"github.com/liuzhaomax/maxblog-stats/internal/core"
+	"github.com/liuzhaomax/maxblog-stats/src/api_user/model"
 )
 
 type UserRes struct {

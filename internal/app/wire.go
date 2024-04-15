@@ -5,10 +5,10 @@ package app
 
 import (
 	"github.com/google/wire"
-	"github.com/liuzhaomax/go-maxms/internal/api"
-	"github.com/liuzhaomax/go-maxms/internal/core"
-	"github.com/liuzhaomax/go-maxms/internal/middleware"
-	"github.com/liuzhaomax/go-maxms/src/set"
+	"github.com/liuzhaomax/maxblog-stats/internal/api"
+	"github.com/liuzhaomax/maxblog-stats/internal/core"
+	"github.com/liuzhaomax/maxblog-stats/internal/middleware"
+	"github.com/liuzhaomax/maxblog-stats/src/set"
 )
 
 func InitInjector() (*Injector, func(), error) {

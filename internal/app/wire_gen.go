@@ -7,18 +7,18 @@
 package app
 
 import (
-	"github.com/liuzhaomax/go-maxms/internal/api"
-	"github.com/liuzhaomax/go-maxms/internal/core"
-	"github.com/liuzhaomax/go-maxms/internal/middleware"
-	"github.com/liuzhaomax/go-maxms/internal/middleware/auth"
-	"github.com/liuzhaomax/go-maxms/internal/middleware/reverse_proxy"
-	"github.com/liuzhaomax/go-maxms/internal/middleware/tracing"
-	"github.com/liuzhaomax/go-maxms/internal/middleware/validator"
-	business2 "github.com/liuzhaomax/go-maxms/src/api_user/business"
-	"github.com/liuzhaomax/go-maxms/src/api_user/handler"
-	model2 "github.com/liuzhaomax/go-maxms/src/api_user/model"
-	"github.com/liuzhaomax/go-maxms/src/api_user_rpc/business"
-	"github.com/liuzhaomax/go-maxms/src/api_user_rpc/model"
+	"github.com/liuzhaomax/maxblog-stats/internal/api"
+	"github.com/liuzhaomax/maxblog-stats/internal/core"
+	"github.com/liuzhaomax/maxblog-stats/internal/middleware"
+	"github.com/liuzhaomax/maxblog-stats/internal/middleware/auth"
+	"github.com/liuzhaomax/maxblog-stats/internal/middleware/reverse_proxy"
+	"github.com/liuzhaomax/maxblog-stats/internal/middleware/tracing"
+	"github.com/liuzhaomax/maxblog-stats/internal/middleware/validator"
+	business2 "github.com/liuzhaomax/maxblog-stats/src/api_user/business"
+	"github.com/liuzhaomax/maxblog-stats/src/api_user/handler"
+	model2 "github.com/liuzhaomax/maxblog-stats/src/api_user/model"
+	"github.com/liuzhaomax/maxblog-stats/src/api_user_rpc/business"
+	"github.com/liuzhaomax/maxblog-stats/src/api_user_rpc/model"
 )
 
 // Injectors from wire.go:

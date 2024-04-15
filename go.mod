@@ -1,4 +1,4 @@
-module github.com/liuzhaomax/go-maxms
+module github.com/liuzhaomax/maxblog-stats
 
 go 1.21.4
 

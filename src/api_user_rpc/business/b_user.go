@@ -3,10 +3,10 @@ package business
 import (
 	"context"
 	"github.com/google/wire"
-	"github.com/liuzhaomax/go-maxms/internal/core"
-	"github.com/liuzhaomax/go-maxms/src/api_user_rpc/model"
-	"github.com/liuzhaomax/go-maxms/src/api_user_rpc/pb"
-	"github.com/liuzhaomax/go-maxms/src/api_user_rpc/schema"
+	"github.com/liuzhaomax/maxblog-stats/internal/core"
+	"github.com/liuzhaomax/maxblog-stats/src/api_user_rpc/model"
+	"github.com/liuzhaomax/maxblog-stats/src/api_user_rpc/pb"
+	"github.com/liuzhaomax/maxblog-stats/src/api_user_rpc/schema"
 	"github.com/redis/go-redis/v9"
 )
 

@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"github.com/gin-gonic/gin"
-	"github.com/liuzhaomax/go-maxms/internal/core"
+	"github.com/liuzhaomax/maxblog-stats/internal/core"
 	"net/http"
 	"time"
 )

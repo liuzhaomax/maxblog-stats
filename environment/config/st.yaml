@@ -1,5 +1,5 @@
 app:
-  name: go-maxms
+  name: maxblog-stats
   version: 0.1
   domain: liuzhaomax.cn
   enabled:
@@ -30,7 +30,7 @@ lib:
     max_life_time: 8192
     max_open_conns: 100000
     max_idle_conns: 1000
-    name: go_maxms
+    name: maxblog
     params: charset=utf8mb4&parseTime=True&loc=Local
     username: root
     password: 123456
@@ -69,16 +69,9 @@ lib:
 server:
   protocol: http
   host: 172.16.96.98
-  port: 9999
+  port: 9701
   base_url: /
   read_timeout: 5 # seconds
   write_timeout: 10
   idle_timeout: 15
   shutdown_timeout: 10
-
-downstreams:
-  - name: go-maxms-be
-    endpoint:
-      host: 172.16.96.98
-      port: 9801
-

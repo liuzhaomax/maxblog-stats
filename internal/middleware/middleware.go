@@ -3,10 +3,10 @@ package middleware
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/wire"
-	"github.com/liuzhaomax/go-maxms/internal/middleware/auth"
-	"github.com/liuzhaomax/go-maxms/internal/middleware/reverse_proxy"
-	"github.com/liuzhaomax/go-maxms/internal/middleware/tracing"
-	"github.com/liuzhaomax/go-maxms/internal/middleware/validator"
+	"github.com/liuzhaomax/maxblog-stats/internal/middleware/auth"
+	"github.com/liuzhaomax/maxblog-stats/internal/middleware/reverse_proxy"
+	"github.com/liuzhaomax/maxblog-stats/internal/middleware/tracing"
+	"github.com/liuzhaomax/maxblog-stats/internal/middleware/validator"
 )
 
 var MiddlewareSet = wire.NewSet(wire.Struct(new(Middleware), "*"))

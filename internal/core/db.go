@@ -2,7 +2,7 @@ package core
 
 import (
 	"fmt"
-	"github.com/liuzhaomax/go-maxms/src/api_user/model"
+	"github.com/liuzhaomax/maxblog-stats/src/api_user/model"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"

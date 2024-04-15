@@ -3,7 +3,7 @@ package test
 import (
 	"errors"
 	"fmt"
-	"github.com/liuzhaomax/go-maxms/internal/core"
+	"github.com/liuzhaomax/maxblog-stats/internal/core"
 	"github.com/magiconair/properties/assert"
 	"testing"
 )

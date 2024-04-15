@@ -2,7 +2,7 @@ package test
 
 import (
 	"fmt"
-	"github.com/liuzhaomax/go-maxms/internal/core"
+	"github.com/liuzhaomax/maxblog-stats/internal/core"
 	"testing"
 )
 

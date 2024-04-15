@@ -2,7 +2,7 @@ package test
 
 import (
 	"fmt"
-	"github.com/liuzhaomax/go-maxms/internal/core"
+	"github.com/liuzhaomax/maxblog-stats/internal/core"
 	"github.com/magiconair/properties/assert"
 	"strings"
 	"testing"
@@ -70,7 +70,7 @@ func TestGetCallerFileAndLine(t *testing.T) {
 	}{
 		{
 			name: "测试返回函数位置",
-			want: fmt.Sprintf("\033[1;34m%s\033[0m\n", "D:/workspace/Github/go-maxms/internal/core/utils_test.go:75"),
+			want: fmt.Sprintf("\033[1;34m%s\033[0m\n", "D:/workspace/Github/maxblog-stats/internal/core/utils_test.go:75"),
 		},
 	}
 	got := core.GetCallerFileAndLine(2)

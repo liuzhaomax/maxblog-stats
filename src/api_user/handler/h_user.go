@@ -3,8 +3,8 @@ package handler
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/wire"
-	"github.com/liuzhaomax/go-maxms/internal/core"
-	"github.com/liuzhaomax/go-maxms/src/api_user/business"
+	"github.com/liuzhaomax/maxblog-stats/internal/core"
+	"github.com/liuzhaomax/maxblog-stats/src/api_user/business"
 )
 
 var HandlerUserSet = wire.NewSet(wire.Struct(new(HandlerUser), "*"))
