@@ -4,11 +4,10 @@ import (
 	"context"
 	"fmt"
 	"github.com/liuzhaomax/maxblog-stats/internal/core"
-	"github.com/liuzhaomax/maxblog-stats/src/api_user_rpc/pb"
+	"github.com/liuzhaomax/maxblog-stats/src/api_stats_rpc/pb"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 	"net"
-	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
@@ -64,35 +63,6 @@ func InitConfig(opts *options) func() {
 	}
 }
 
-func InitHttpServer(ctx context.Context, handler http.Handler) func() {
-	cfg := core.GetConfig()
-	cfg.App.Logger.Info(core.FormatInfo("服务启动开始"))
-	addr := fmt.Sprintf("%s:%s", "0.0.0.0", cfg.Server.Port)
-	server := &http.Server{
-		Addr:         addr,
-		Handler:      handler,
-		ReadTimeout:  time.Duration(cfg.Server.ReadTimeout) * time.Second,
-		WriteTimeout: time.Duration(cfg.Server.WriteTimeout) * time.Second,
-		IdleTimeout:  time.Duration(cfg.Server.IdleTimeout) * time.Second,
-	}
-	go func() {
-		cfg.App.Logger.WithContext(ctx).Infof("Service %s is running at %s", cfg.App.Name, addr)
-		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			cfg.App.Logger.WithField(core.FAILURE, core.GetFuncName()).Fatal(core.FormatError(core.Unknown, "服务启动失败", err))
-		}
-	}()
-	return func() {
-		cfg.App.Logger.Info(core.FormatInfo("服务关闭开始"))
-		_ctx, cancel := context.WithTimeout(ctx, time.Second*time.Duration(cfg.Server.ShutdownTimeout))
-		defer cancel()
-		server.SetKeepAlivesEnabled(false)
-		if err := server.Shutdown(_ctx); err != nil {
-			cfg.App.Logger.WithContext(_ctx).WithField(core.FAILURE, core.GetFuncName()).Error(core.FormatError(core.Unknown, "服务关闭异常", err))
-		}
-		cfg.App.Logger.Info(core.FormatInfo("服务关闭成功"))
-	}
-}
-
 func InitRpcServer(ctx context.Context, injector *Injector) func() {
 	cfg := core.GetConfig()
 	cfg.App.Logger.Info(core.FormatInfo("服务启动开始"))
@@ -101,7 +71,7 @@ func InitRpcServer(ctx context.Context, injector *Injector) func() {
 		// 注册RPC中间件
 		grpc.UnaryInterceptor(core.LoggerForRPC),
 	)
-	pb.RegisterUserServiceServer(server, injector.RPCService)
+	pb.RegisterStatsServiceServer(server, injector.RPCService)
 	go func() {
 		listen, err := net.Listen("tcp", addr)
 		if err != nil {
@@ -134,19 +104,7 @@ func Init(ctx context.Context, optFuncs ...Option) func() {
 	// init injector
 	injector, cleanInjection, _ := InitInjector()
 	// init server by protocol
-	var cleanServer func()
-	switch cfg.Server.Protocol {
-	case "http":
-		// register apis
-		injector.Handler.RegisterStaticFS(injector.Engine, opts.WWWDir) // static
-		injector.Handler.Register(injector.Engine)                      // dynamic
-		// init server
-		cleanServer = InitHttpServer(ctx, injector.Engine)
-	case "rpc":
-		cleanServer = InitRpcServer(ctx, injector)
-	default:
-		cleanServer = InitRpcServer(ctx, injector)
-	}
+	cleanServer := InitRpcServer(ctx, injector)
 	cfg.App.Logger.WithFields(logrus.Fields{
 		"app_name": cfg.App.Name,
 		"version":  cfg.App.Version,

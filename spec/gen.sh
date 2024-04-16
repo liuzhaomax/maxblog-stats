@@ -1,7 +1,7 @@
 #!/bin/sh
 
-CONTRACT_PATH=user.proto
-OUT_PATH=../src/api_user_rpc/pb
+CONTRACT_PATH=stats_article_main.proto
+OUT_PATH=../src/api_stats_rpc/pb
 
 cd spec
 mkdir -p ${OUT_PATH}

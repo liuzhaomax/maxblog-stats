@@ -67,7 +67,7 @@ lib:
       port: 9876
 
 server:
-  protocol: http
+  protocol: rpc
   host: 172.16.96.98
   port: 9701
   base_url: /

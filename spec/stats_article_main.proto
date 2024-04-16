@@ -1,0 +1,26 @@
+syntax="proto3";
+
+option go_package="/pb";
+
+service StatsService {
+  rpc GetStatsArticleMain(Empty) returns (StatsArticleMainRes);
+}
+
+message Empty {
+}
+
+message Status {
+  int32 code = 1;
+  string desc = 2;
+}
+
+message StatsArticleMainResData {
+  int32 quantity=1;
+  int32 view=2;
+  int32 like=3;
+}
+
+message StatsArticleMainRes {
+  Status status = 1;
+  StatsArticleMainResData data = 2;
+}

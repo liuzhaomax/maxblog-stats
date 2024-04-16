@@ -7,18 +7,9 @@
 package app
 
 import (
-	"github.com/liuzhaomax/maxblog-stats/internal/api"
 	"github.com/liuzhaomax/maxblog-stats/internal/core"
-	"github.com/liuzhaomax/maxblog-stats/internal/middleware"
-	"github.com/liuzhaomax/maxblog-stats/internal/middleware/auth"
-	"github.com/liuzhaomax/maxblog-stats/internal/middleware/reverse_proxy"
-	"github.com/liuzhaomax/maxblog-stats/internal/middleware/tracing"
-	"github.com/liuzhaomax/maxblog-stats/internal/middleware/validator"
-	business2 "github.com/liuzhaomax/maxblog-stats/src/api_user/business"
-	"github.com/liuzhaomax/maxblog-stats/src/api_user/handler"
-	model2 "github.com/liuzhaomax/maxblog-stats/src/api_user/model"
-	"github.com/liuzhaomax/maxblog-stats/src/api_user_rpc/business"
-	"github.com/liuzhaomax/maxblog-stats/src/api_user_rpc/model"
+	"github.com/liuzhaomax/maxblog-stats/src/api_stats_rpc/business"
+	"github.com/liuzhaomax/maxblog-stats/src/api_stats_rpc/model"
 )
 
 // Injectors from wire.go:
@@ -28,7 +19,7 @@ func InitInjector() (*Injector, func(), error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	modelUser := &model.ModelUser{
+	modelStatsArticle := &model.ModelStatsArticle{
 		DB: db,
 	}
 	trans := &core.Trans{
@@ -46,63 +37,22 @@ func InitInjector() (*Injector, func(), error) {
 	response := &core.Response{
 		Logger: coreLogger,
 	}
-	businessUser := &business.BusinessUser{
-		Model: modelUser,
-		Tx:    trans,
-		Redis: client,
-		IRes:  response,
-	}
-	engine := core.InitGinEngine()
-	authAuth := &auth.Auth{
-		Logger: coreLogger,
-		Redis:  client,
-	}
-	validatorValidator := &validator.Validator{
-		Logger: coreLogger,
-		Redis:  client,
-	}
-	configuration := core.InitTracer()
-	tracingTracing := &tracing.Tracing{
-		Logger:       coreLogger,
-		TracerConfig: configuration,
-	}
-	reverseProxy := &reverse_proxy.ReverseProxy{
-		Logger:      coreLogger,
-		RedisClient: client,
-	}
-	middlewareMiddleware := &middleware.Middleware{
-		Auth:         authAuth,
-		Validator:    validatorValidator,
-		Tracing:      tracingTracing,
-		ReverseProxy: reverseProxy,
-	}
-	modelModelUser := &model2.ModelUser{
-		DB: db,
-	}
-	businessBusinessUser := &business2.BusinessUser{
-		Model: modelModelUser,
-		Tx:    trans,
-		Redis: client,
-	}
 	rocketMQ := &core.RocketMQ{}
-	handlerUser := &handler.HandlerUser{
-		Business: businessBusinessUser,
-		Logger:   coreLogger,
-		Res:      response,
+	businessStatsArticle := &business.BusinessStatsArticle{
+		Model:    modelStatsArticle,
+		Tx:       trans,
+		Redis:    client,
+		IRes:     response,
 		RocketMQ: rocketMQ,
 	}
+	engine := core.InitGinEngine()
 	registry := core.InitPrometheusRegistry()
-	apiHandler := &api.Handler{
-		Middleware:         middlewareMiddleware,
-		HandlerUser:        handlerUser,
-		PrometheusRegistry: registry,
-	}
 	injector := &Injector{
-		RPCService: businessUser,
-		Engine:     engine,
-		Handler:    apiHandler,
-		DB:         db,
-		Redis:      client,
+		RPCService:         businessStatsArticle,
+		Engine:             engine,
+		DB:                 db,
+		Redis:              client,
+		PrometheusRegistry: registry,
 	}
 	return injector, func() {
 		cleanup2()
