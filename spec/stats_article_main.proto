@@ -1,8 +1,11 @@
 syntax="proto3";
 
+//import "google/protobuf/empty.proto";
+
 option go_package="/pb";
 
 service StatsService {
+//  rpc GetStatsArticleMain(google.protobuf.Empty) returns (StatsArticleMainRes);
   rpc GetStatsArticleMain(Empty) returns (StatsArticleMainRes);
 }
 

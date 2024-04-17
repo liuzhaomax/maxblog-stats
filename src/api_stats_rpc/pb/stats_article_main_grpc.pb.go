@@ -26,6 +26,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type StatsServiceClient interface {
+	// rpc GetStatsArticleMain(google.protobuf.Empty) returns (StatsArticleMainRes);
 	GetStatsArticleMain(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*StatsArticleMainRes, error)
 }
 
@@ -50,6 +51,7 @@ func (c *statsServiceClient) GetStatsArticleMain(ctx context.Context, in *Empty,
 // All implementations should embed UnimplementedStatsServiceServer
 // for forward compatibility
 type StatsServiceServer interface {
+	// rpc GetStatsArticleMain(google.protobuf.Empty) returns (StatsArticleMainRes);
 	GetStatsArticleMain(context.Context, *Empty) (*StatsArticleMainRes, error)
 }
 
