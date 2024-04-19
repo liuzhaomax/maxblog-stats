@@ -35,13 +35,13 @@ func (t *Tracing) Trace() gin.HandlerFunc {
 		parent := c.Request.Header.Get(core.ParentId)
 		if parent != core.EmptyString {
 			// 有父级span的时候提取父级span的traceID
-			carrier := opentracing.HTTPHeadersCarrier(c.Request.Header)
-			ctx, err := tracer.Extract(opentracing.HTTPHeaders, carrier)
+			carrier := opentracing.HTTPHeadersCarrier(c.Request.Header)  //nolint:typecheck
+			ctx, err := tracer.Extract(opentracing.HTTPHeaders, carrier) //nolint:typecheck
 			if err != nil {
 				c.AbortWithStatusJSON(http.StatusUnauthorized, t.GenErrMsg(c, "tracer提取失败", err))
 				return
 			}
-			span = tracer.StartSpan(c.Request.URL.Path, opentracing.ChildOf(ctx))
+			span = tracer.StartSpan(c.Request.URL.Path, opentracing.ChildOf(ctx)) //nolint:typecheck
 		} else {
 			span = tracer.StartSpan(c.Request.URL.Path)
 		}
