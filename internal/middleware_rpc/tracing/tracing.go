@@ -31,7 +31,7 @@ func (t *TracingRPC) Trace(ctx context.Context, req interface{}, info *grpc.Unar
 		return
 	}
 	// 生成tracer
-	tracer, closer, err := t.TracerConfig.NewTracer(jConfig.Logger(jaeger.StdLogger))
+	tracer, closer, err := t.TracerConfig.NewTracer(jConfig.Logger(jaeger.StdLogger)) //nolint:typecheck
 	defer func(closer io.Closer) {
 		_ = closer.Close()
 	}(closer)
@@ -40,17 +40,17 @@ func (t *TracingRPC) Trace(ctx context.Context, req interface{}, info *grpc.Unar
 		return
 	}
 	// 创建span
-	var span opentracing.Span
+	var span opentracing.Span //nolint:typecheck
 	parent := md[core.ParentId][0]
 	if parent != core.EmptyString {
 		// 有父级span的时候提取父级span的traceID
-		carrier := opentracing.TextMapCarrier{}
+		carrier := opentracing.TextMapCarrier{} //nolint:typecheck
 		for key, valSlice := range md {
 			carrier.Set(key, valSlice[0])
 		}
 		// 注意inject会加入uber-trace-id到headers中，而md不会，没有这个不会产生ctx，
 		// 测试单个服务需要手动加入，多个服务不会走这块代码
-		ctxTracer, errTracer := tracer.Extract(opentracing.TextMap, carrier)
+		ctxTracer, errTracer := tracer.Extract(opentracing.TextMap, carrier) //nolint:typecheck
 		if errTracer != nil {
 			err = t.GenErrMsg(ctx, "tracer提取失败", errTracer)
 			return
