@@ -7,7 +7,12 @@
 package app
 
 import (
+	"github.com/liuzhaomax/maxblog-stats/internal/api"
 	"github.com/liuzhaomax/maxblog-stats/internal/core"
+	"github.com/liuzhaomax/maxblog-stats/internal/middleware_rpc"
+	"github.com/liuzhaomax/maxblog-stats/internal/middleware_rpc/auth"
+	"github.com/liuzhaomax/maxblog-stats/internal/middleware_rpc/tracing"
+	"github.com/liuzhaomax/maxblog-stats/internal/middleware_rpc/validator"
 	"github.com/liuzhaomax/maxblog-stats/src/api_stats_rpc/business"
 	"github.com/liuzhaomax/maxblog-stats/src/api_stats_rpc/model"
 )
@@ -15,8 +20,36 @@ import (
 // Injectors from wire.go:
 
 func InitInjector() (*Injector, func(), error) {
-	db, cleanup, err := core.InitDB()
+	registry := core.InitPrometheusRegistry()
+	logger := core.InitLogrus()
+	coreLogger := &core.Logger{
+		Logger: logger,
+	}
+	client, cleanup, err := core.InitRedis()
 	if err != nil {
+		return nil, nil, err
+	}
+	authRPC := &auth.AuthRPC{
+		Logger: coreLogger,
+		Redis:  client,
+	}
+	validatorRPC := &validator.ValidatorRPC{
+		Logger: coreLogger,
+		Redis:  client,
+	}
+	configuration := core.InitTracer()
+	tracingRPC := &tracing.TracingRPC{
+		Logger:       coreLogger,
+		TracerConfig: configuration,
+	}
+	middlewareRPC := &middleware_rpc.MiddlewareRPC{
+		AuthRPC:      authRPC,
+		ValidatorRPC: validatorRPC,
+		TracingRPC:   tracingRPC,
+	}
+	db, cleanup2, err := core.InitDB()
+	if err != nil {
+		cleanup()
 		return nil, nil, err
 	}
 	modelStatsArticle := &model.ModelStatsArticle{
@@ -24,15 +57,6 @@ func InitInjector() (*Injector, func(), error) {
 	}
 	trans := &core.Trans{
 		DB: db,
-	}
-	client, cleanup2, err := core.InitRedis()
-	if err != nil {
-		cleanup()
-		return nil, nil, err
-	}
-	logger := core.InitLogrus()
-	coreLogger := &core.Logger{
-		Logger: logger,
 	}
 	response := &core.Response{
 		Logger: coreLogger,
@@ -45,14 +69,15 @@ func InitInjector() (*Injector, func(), error) {
 		IRes:     response,
 		RocketMQ: rocketMQ,
 	}
-	engine := core.InitGinEngine()
-	registry := core.InitPrometheusRegistry()
-	injector := &Injector{
-		RPCService:         businessStatsArticle,
-		Engine:             engine,
-		DB:                 db,
-		Redis:              client,
+	handlerRPC := &api.HandlerRPC{
 		PrometheusRegistry: registry,
+		MiddlewareRPC:      middlewareRPC,
+		BusinessRPC:        businessStatsArticle,
+	}
+	injector := &Injector{
+		HandlerRPC: handlerRPC,
+		DB:         db,
+		Redis:      client,
 	}
 	return injector, func() {
 		cleanup2()

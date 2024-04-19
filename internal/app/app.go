@@ -3,10 +3,9 @@ package app
 import (
 	"context"
 	"fmt"
+	"github.com/liuzhaomax/maxblog-stats/internal/api"
 	"github.com/liuzhaomax/maxblog-stats/internal/core"
-	"github.com/liuzhaomax/maxblog-stats/src/api_stats_rpc/pb"
 	"github.com/sirupsen/logrus"
-	"google.golang.org/grpc"
 	"net"
 	"os"
 	"os/signal"
@@ -63,15 +62,11 @@ func InitConfig(opts *options) func() {
 	}
 }
 
-func InitRpcServer(ctx context.Context, injector *Injector) func() {
+func InitRpcServer(ctx context.Context, handlerRPC *api.HandlerRPC) func() {
 	cfg := core.GetConfig()
 	cfg.App.Logger.Info(core.FormatInfo("服务启动开始"))
 	addr := fmt.Sprintf("%s:%s", cfg.Server.Host, cfg.Server.Port)
-	server := grpc.NewServer(
-		// 注册RPC中间件
-		grpc.UnaryInterceptor(core.LoggerForRPC),
-	)
-	pb.RegisterStatsServiceServer(server, injector.RPCService)
+	server := handlerRPC.Register()
 	go func() {
 		listen, err := net.Listen("tcp", addr)
 		if err != nil {
@@ -104,7 +99,7 @@ func Init(ctx context.Context, optFuncs ...Option) func() {
 	// init injector
 	injector, cleanInjection, _ := InitInjector()
 	// init server by protocol
-	cleanServer := InitRpcServer(ctx, injector)
+	cleanServer := InitRpcServer(ctx, injector.HandlerRPC)
 	cfg.App.Logger.WithFields(logrus.Fields{
 		"app_name": cfg.App.Name,
 		"version":  cfg.App.Version,

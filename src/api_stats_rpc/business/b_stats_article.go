@@ -20,6 +20,20 @@ type BusinessStatsArticle struct {
 }
 
 func (b *BusinessStatsArticle) GetStatsArticleMain(ctx context.Context, empty *pb.Empty) (*pb.StatsArticleMainRes, error) {
-	// TODO implement me
-	panic("implement me")
+	// TODO prometheus
+	data := &pb.StatsArticleMainRes{}
+	err := b.Tx.ExecTrans(ctx, func(ctx context.Context) error {
+		err := b.Model.GetStatsArticleMain(ctx, data)
+		if err != nil {
+			b.IRes.ResFailureForRPC(ctx, core.InternalServerError, "DB查询文章主要统计失败", err)
+			return core.FormatError(core.DBDenied, "DB查询文章主要统计失败", err)
+		}
+		return nil
+	})
+	if err != nil {
+		b.IRes.ResFailureForRPC(ctx, core.InternalServerError, "DB事务失败", err)
+		return nil, core.FormatError(core.DBDenied, "DB事务失败", err)
+	}
+	b.IRes.ResSuccessForRPC(ctx)
+	return data, nil
 }

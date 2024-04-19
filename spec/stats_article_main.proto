@@ -12,18 +12,8 @@ service StatsService {
 message Empty {
 }
 
-message Status {
-  int32 code = 1;
-  string desc = 2;
-}
-
-message StatsArticleMainResData {
+message StatsArticleMainRes {
   int32 quantity=1;
   int32 view=2;
   int32 like=3;
-}
-
-message StatsArticleMainRes {
-  Status status = 1;
-  StatsArticleMainResData data = 2;
 }

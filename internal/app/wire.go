@@ -5,18 +5,21 @@ package app
 
 import (
 	"github.com/google/wire"
+	"github.com/liuzhaomax/maxblog-stats/internal/api"
 	"github.com/liuzhaomax/maxblog-stats/internal/core"
+	"github.com/liuzhaomax/maxblog-stats/internal/middleware_rpc"
 	"github.com/liuzhaomax/maxblog-stats/src/set"
 )
 
 func InitInjector() (*Injector, func(), error) {
 	wire.Build(
 		core.InitLogrus,
-		core.InitGinEngine,
+		// core.InitGinEngine,
 		core.InitDB,
 		core.InitRedis,
-		// core.InitTracer,
+		core.InitTracer,
 		core.InitPrometheusRegistry,
+		api.APIRPCSet,
 		set.BusinessSet,
 		set.ModelSet,
 		core.LoggerSet,
@@ -25,6 +28,8 @@ func InitInjector() (*Injector, func(), error) {
 		core.RocketMQSet,
 		// middleware.MwsSet,
 		// middleware.MiddlewareSet,
+		middleware_rpc.MwsRPCSet,
+		middleware_rpc.MiddlewareRPCSet,
 		InjectorSet,
 	)
 	return new(Injector), nil, nil

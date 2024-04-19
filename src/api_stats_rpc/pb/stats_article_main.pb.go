@@ -58,62 +58,7 @@ func (*Empty) Descriptor() ([]byte, []int) {
 	return file_stats_article_main_proto_rawDescGZIP(), []int{0}
 }
 
-type Status struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Code int32  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
-	Desc string `protobuf:"bytes,2,opt,name=desc,proto3" json:"desc,omitempty"`
-}
-
-func (x *Status) Reset() {
-	*x = Status{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_stats_article_main_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *Status) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Status) ProtoMessage() {}
-
-func (x *Status) ProtoReflect() protoreflect.Message {
-	mi := &file_stats_article_main_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Status.ProtoReflect.Descriptor instead.
-func (*Status) Descriptor() ([]byte, []int) {
-	return file_stats_article_main_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *Status) GetCode() int32 {
-	if x != nil {
-		return x.Code
-	}
-	return 0
-}
-
-func (x *Status) GetDesc() string {
-	if x != nil {
-		return x.Desc
-	}
-	return ""
-}
-
-type StatsArticleMainResData struct {
+type StatsArticleMainRes struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -123,72 +68,10 @@ type StatsArticleMainResData struct {
 	Like     int32 `protobuf:"varint,3,opt,name=like,proto3" json:"like,omitempty"`
 }
 
-func (x *StatsArticleMainResData) Reset() {
-	*x = StatsArticleMainResData{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_stats_article_main_proto_msgTypes[2]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *StatsArticleMainResData) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*StatsArticleMainResData) ProtoMessage() {}
-
-func (x *StatsArticleMainResData) ProtoReflect() protoreflect.Message {
-	mi := &file_stats_article_main_proto_msgTypes[2]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use StatsArticleMainResData.ProtoReflect.Descriptor instead.
-func (*StatsArticleMainResData) Descriptor() ([]byte, []int) {
-	return file_stats_article_main_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *StatsArticleMainResData) GetQuantity() int32 {
-	if x != nil {
-		return x.Quantity
-	}
-	return 0
-}
-
-func (x *StatsArticleMainResData) GetView() int32 {
-	if x != nil {
-		return x.View
-	}
-	return 0
-}
-
-func (x *StatsArticleMainResData) GetLike() int32 {
-	if x != nil {
-		return x.Like
-	}
-	return 0
-}
-
-type StatsArticleMainRes struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Status *Status                  `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
-	Data   *StatsArticleMainResData `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
-}
-
 func (x *StatsArticleMainRes) Reset() {
 	*x = StatsArticleMainRes{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_stats_article_main_proto_msgTypes[3]
+		mi := &file_stats_article_main_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -201,7 +84,7 @@ func (x *StatsArticleMainRes) String() string {
 func (*StatsArticleMainRes) ProtoMessage() {}
 
 func (x *StatsArticleMainRes) ProtoReflect() protoreflect.Message {
-	mi := &file_stats_article_main_proto_msgTypes[3]
+	mi := &file_stats_article_main_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -214,21 +97,28 @@ func (x *StatsArticleMainRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StatsArticleMainRes.ProtoReflect.Descriptor instead.
 func (*StatsArticleMainRes) Descriptor() ([]byte, []int) {
-	return file_stats_article_main_proto_rawDescGZIP(), []int{3}
+	return file_stats_article_main_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *StatsArticleMainRes) GetStatus() *Status {
+func (x *StatsArticleMainRes) GetQuantity() int32 {
 	if x != nil {
-		return x.Status
+		return x.Quantity
 	}
-	return nil
+	return 0
 }
 
-func (x *StatsArticleMainRes) GetData() *StatsArticleMainResData {
+func (x *StatsArticleMainRes) GetView() int32 {
 	if x != nil {
-		return x.Data
+		return x.View
 	}
-	return nil
+	return 0
+}
+
+func (x *StatsArticleMainRes) GetLike() int32 {
+	if x != nil {
+		return x.Like
+	}
+	return 0
 }
 
 var File_stats_article_main_proto protoreflect.FileDescriptor
@@ -236,27 +126,18 @@ var File_stats_article_main_proto protoreflect.FileDescriptor
 var file_stats_article_main_proto_rawDesc = []byte{
 	0x0a, 0x18, 0x73, 0x74, 0x61, 0x74, 0x73, 0x5f, 0x61, 0x72, 0x74, 0x69, 0x63, 0x6c, 0x65, 0x5f,
 	0x6d, 0x61, 0x69, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x07, 0x0a, 0x05, 0x45, 0x6d,
-	0x70, 0x74, 0x79, 0x22, 0x30, 0x0a, 0x06, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x12, 0x0a,
-	0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x63, 0x6f, 0x64,
-	0x65, 0x12, 0x12, 0x0a, 0x04, 0x64, 0x65, 0x73, 0x63, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x04, 0x64, 0x65, 0x73, 0x63, 0x22, 0x5d, 0x0a, 0x17, 0x53, 0x74, 0x61, 0x74, 0x73, 0x41, 0x72,
-	0x74, 0x69, 0x63, 0x6c, 0x65, 0x4d, 0x61, 0x69, 0x6e, 0x52, 0x65, 0x73, 0x44, 0x61, 0x74, 0x61,
-	0x12, 0x1a, 0x0a, 0x08, 0x71, 0x75, 0x61, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x05, 0x52, 0x08, 0x71, 0x75, 0x61, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x12, 0x12, 0x0a, 0x04,
-	0x76, 0x69, 0x65, 0x77, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x76, 0x69, 0x65, 0x77,
-	0x12, 0x12, 0x0a, 0x04, 0x6c, 0x69, 0x6b, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04,
-	0x6c, 0x69, 0x6b, 0x65, 0x22, 0x64, 0x0a, 0x13, 0x53, 0x74, 0x61, 0x74, 0x73, 0x41, 0x72, 0x74,
-	0x69, 0x63, 0x6c, 0x65, 0x4d, 0x61, 0x69, 0x6e, 0x52, 0x65, 0x73, 0x12, 0x1f, 0x0a, 0x06, 0x73,
-	0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x07, 0x2e, 0x53, 0x74,
-	0x61, 0x74, 0x75, 0x73, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x2c, 0x0a, 0x04,
-	0x64, 0x61, 0x74, 0x61, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x18, 0x2e, 0x53, 0x74, 0x61,
-	0x74, 0x73, 0x41, 0x72, 0x74, 0x69, 0x63, 0x6c, 0x65, 0x4d, 0x61, 0x69, 0x6e, 0x52, 0x65, 0x73,
-	0x44, 0x61, 0x74, 0x61, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x32, 0x43, 0x0a, 0x0c, 0x53, 0x74,
-	0x61, 0x74, 0x73, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x33, 0x0a, 0x13, 0x47, 0x65,
-	0x74, 0x53, 0x74, 0x61, 0x74, 0x73, 0x41, 0x72, 0x74, 0x69, 0x63, 0x6c, 0x65, 0x4d, 0x61, 0x69,
-	0x6e, 0x12, 0x06, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x14, 0x2e, 0x53, 0x74, 0x61, 0x74,
-	0x73, 0x41, 0x72, 0x74, 0x69, 0x63, 0x6c, 0x65, 0x4d, 0x61, 0x69, 0x6e, 0x52, 0x65, 0x73, 0x42,
-	0x05, 0x5a, 0x03, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x70, 0x74, 0x79, 0x22, 0x59, 0x0a, 0x13, 0x53, 0x74, 0x61, 0x74, 0x73, 0x41, 0x72, 0x74, 0x69,
+	0x63, 0x6c, 0x65, 0x4d, 0x61, 0x69, 0x6e, 0x52, 0x65, 0x73, 0x12, 0x1a, 0x0a, 0x08, 0x71, 0x75,
+	0x61, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x71, 0x75,
+	0x61, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x12, 0x12, 0x0a, 0x04, 0x76, 0x69, 0x65, 0x77, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x76, 0x69, 0x65, 0x77, 0x12, 0x12, 0x0a, 0x04, 0x6c, 0x69,
+	0x6b, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x6c, 0x69, 0x6b, 0x65, 0x32, 0x43,
+	0x0a, 0x0c, 0x53, 0x74, 0x61, 0x74, 0x73, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x33,
+	0x0a, 0x13, 0x47, 0x65, 0x74, 0x53, 0x74, 0x61, 0x74, 0x73, 0x41, 0x72, 0x74, 0x69, 0x63, 0x6c,
+	0x65, 0x4d, 0x61, 0x69, 0x6e, 0x12, 0x06, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x14, 0x2e,
+	0x53, 0x74, 0x61, 0x74, 0x73, 0x41, 0x72, 0x74, 0x69, 0x63, 0x6c, 0x65, 0x4d, 0x61, 0x69, 0x6e,
+	0x52, 0x65, 0x73, 0x42, 0x05, 0x5a, 0x03, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x33,
 }
 
 var (
@@ -271,23 +152,19 @@ func file_stats_article_main_proto_rawDescGZIP() []byte {
 	return file_stats_article_main_proto_rawDescData
 }
 
-var file_stats_article_main_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_stats_article_main_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_stats_article_main_proto_goTypes = []interface{}{
-	(*Empty)(nil),                   // 0: Empty
-	(*Status)(nil),                  // 1: Status
-	(*StatsArticleMainResData)(nil), // 2: StatsArticleMainResData
-	(*StatsArticleMainRes)(nil),     // 3: StatsArticleMainRes
+	(*Empty)(nil),               // 0: Empty
+	(*StatsArticleMainRes)(nil), // 1: StatsArticleMainRes
 }
 var file_stats_article_main_proto_depIdxs = []int32{
-	1, // 0: StatsArticleMainRes.status:type_name -> Status
-	2, // 1: StatsArticleMainRes.data:type_name -> StatsArticleMainResData
-	0, // 2: StatsService.GetStatsArticleMain:input_type -> Empty
-	3, // 3: StatsService.GetStatsArticleMain:output_type -> StatsArticleMainRes
-	3, // [3:4] is the sub-list for method output_type
-	2, // [2:3] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	0, // 0: StatsService.GetStatsArticleMain:input_type -> Empty
+	1, // 1: StatsService.GetStatsArticleMain:output_type -> StatsArticleMainRes
+	1, // [1:2] is the sub-list for method output_type
+	0, // [0:1] is the sub-list for method input_type
+	0, // [0:0] is the sub-list for extension type_name
+	0, // [0:0] is the sub-list for extension extendee
+	0, // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_stats_article_main_proto_init() }
@@ -309,30 +186,6 @@ func file_stats_article_main_proto_init() {
 			}
 		}
 		file_stats_article_main_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Status); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_stats_article_main_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*StatsArticleMainResData); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_stats_article_main_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*StatsArticleMainRes); i {
 			case 0:
 				return &v.state
@@ -351,7 +204,7 @@ func file_stats_article_main_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_stats_article_main_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
