@@ -55,7 +55,7 @@ func (t *TracingRPC) Trace(ctx context.Context, req interface{}, info *grpc.Unar
 			err = t.GenErrMsg(ctx, "tracer提取失败", errTracer)
 			return
 		}
-		span = tracer.StartSpan(md[core.RequestURI][0], opentracing.ChildOf(ctxTracer))
+		span = tracer.StartSpan(md[core.RequestURI][0], opentracing.ChildOf(ctxTracer)) //nolint:typecheck
 	} else {
 		span = tracer.StartSpan(md[core.RequestURI][0])
 	}
@@ -72,8 +72,8 @@ func (t *TracingRPC) Trace(ctx context.Context, req interface{}, info *grpc.Unar
 	md[core.TraceId] = []string{traceID}
 	md[core.SpanId] = []string{spanID}
 	// 生成carrier
-	carrier := opentracing.HTTPHeadersCarrier(md)
-	err = tracer.Inject(span.Context(), opentracing.HTTPHeaders, carrier)
+	carrier := opentracing.HTTPHeadersCarrier(md)                         //nolint:typecheck
+	err = tracer.Inject(span.Context(), opentracing.HTTPHeaders, carrier) //nolint:typecheck
 	if err != nil {
 		err = t.GenErrMsg(ctx, "tracer注入失败", err)
 		return
