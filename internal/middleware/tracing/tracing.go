@@ -31,7 +31,7 @@ func (t *Tracing) Trace() gin.HandlerFunc {
 			return
 		}
 		// 创建span
-		var span opentracing.Span
+		var span opentracing.Span //nolint:typecheck
 		parent := c.Request.Header.Get(core.ParentId)
 		if parent != core.EmptyString {
 			// 有父级span的时候提取父级span的traceID
@@ -58,8 +58,8 @@ func (t *Tracing) Trace() gin.HandlerFunc {
 		c.Request.Header.Set(core.TraceId, traceID)
 		c.Request.Header.Set(core.SpanId, spanID)
 		// 生成carrier
-		carrier := opentracing.HTTPHeadersCarrier(c.Request.Header)
-		err = tracer.Inject(span.Context(), opentracing.HTTPHeaders, carrier)
+		carrier := opentracing.HTTPHeadersCarrier(c.Request.Header)           //nolint:typecheck
+		err = tracer.Inject(span.Context(), opentracing.HTTPHeaders, carrier) //nolint:typecheck
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, t.GenErrMsg(c, "tracer注入失败", err))
 			return
