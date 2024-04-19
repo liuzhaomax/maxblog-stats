@@ -31,7 +31,7 @@ func (t *TracingRPC) Trace(ctx context.Context, req interface{}, info *grpc.Unar
 		return
 	}
 	// 生成tracer
-	tracer, closer, err := t.TracerConfig.NewTracer(jConfig.Logger(jaeger.StdLogger)) //nolint:typecheck
+	tracer, closer, err := t.TracerConfig.NewTracer(jConfig.Logger(jaeger.StdLogger))
 	defer func(closer io.Closer) {
 		_ = closer.Close()
 	}(closer)
@@ -40,22 +40,22 @@ func (t *TracingRPC) Trace(ctx context.Context, req interface{}, info *grpc.Unar
 		return
 	}
 	// 创建span
-	var span opentracing.Span //nolint:typecheck
+	var span opentracing.Span
 	parent := md[core.ParentId][0]
 	if parent != core.EmptyString {
 		// 有父级span的时候提取父级span的traceID
-		carrier := opentracing.TextMapCarrier{} //nolint:typecheck
+		carrier := opentracing.TextMapCarrier{}
 		for key, valSlice := range md {
 			carrier.Set(key, valSlice[0])
 		}
 		// 注意inject会加入uber-trace-id到headers中，而md不会，没有这个不会产生ctx，
 		// 测试单个服务需要手动加入，多个服务不会走这块代码
-		ctxTracer, errTracer := tracer.Extract(opentracing.TextMap, carrier) //nolint:typecheck
+		ctxTracer, errTracer := tracer.Extract(opentracing.TextMap, carrier)
 		if errTracer != nil {
 			err = t.GenErrMsg(ctx, "tracer提取失败", errTracer)
 			return
 		}
-		span = tracer.StartSpan(md[core.RequestURI][0], opentracing.ChildOf(ctxTracer)) //nolint:typecheck
+		span = tracer.StartSpan(md[core.RequestURI][0], opentracing.ChildOf(ctxTracer))
 	} else {
 		span = tracer.StartSpan(md[core.RequestURI][0])
 	}
@@ -72,8 +72,8 @@ func (t *TracingRPC) Trace(ctx context.Context, req interface{}, info *grpc.Unar
 	md[core.TraceId] = []string{traceID}
 	md[core.SpanId] = []string{spanID}
 	// 生成carrier
-	carrier := opentracing.HTTPHeadersCarrier(md)                         //nolint:typecheck
-	err = tracer.Inject(span.Context(), opentracing.HTTPHeaders, carrier) //nolint:typecheck
+	carrier := opentracing.HTTPHeadersCarrier(md)
+	err = tracer.Inject(span.Context(), opentracing.HTTPHeaders, carrier)
 	if err != nil {
 		err = t.GenErrMsg(ctx, "tracer注入失败", err)
 		return

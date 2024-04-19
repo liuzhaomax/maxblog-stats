@@ -22,7 +22,7 @@ type Tracing struct {
 func (t *Tracing) Trace() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// 生成tracer
-		tracer, closer, err := t.TracerConfig.NewTracer(jConfig.Logger(jaeger.StdLogger)) //nolint:typecheck
+		tracer, closer, err := t.TracerConfig.NewTracer(jConfig.Logger(jaeger.StdLogger))
 		defer func(closer io.Closer) {
 			_ = closer.Close()
 		}(closer)
@@ -31,17 +31,17 @@ func (t *Tracing) Trace() gin.HandlerFunc {
 			return
 		}
 		// 创建span
-		var span opentracing.Span //nolint:typecheck
+		var span opentracing.Span
 		parent := c.Request.Header.Get(core.ParentId)
 		if parent != core.EmptyString {
 			// 有父级span的时候提取父级span的traceID
-			carrier := opentracing.HTTPHeadersCarrier(c.Request.Header)  //nolint:typecheck
-			ctx, err := tracer.Extract(opentracing.HTTPHeaders, carrier) //nolint:typecheck
+			carrier := opentracing.HTTPHeadersCarrier(c.Request.Header)
+			ctx, err := tracer.Extract(opentracing.HTTPHeaders, carrier)
 			if err != nil {
 				c.AbortWithStatusJSON(http.StatusUnauthorized, t.GenErrMsg(c, "tracer提取失败", err))
 				return
 			}
-			span = tracer.StartSpan(c.Request.URL.Path, opentracing.ChildOf(ctx)) //nolint:typecheck
+			span = tracer.StartSpan(c.Request.URL.Path, opentracing.ChildOf(ctx))
 		} else {
 			span = tracer.StartSpan(c.Request.URL.Path)
 		}
@@ -58,8 +58,8 @@ func (t *Tracing) Trace() gin.HandlerFunc {
 		c.Request.Header.Set(core.TraceId, traceID)
 		c.Request.Header.Set(core.SpanId, spanID)
 		// 生成carrier
-		carrier := opentracing.HTTPHeadersCarrier(c.Request.Header)           //nolint:typecheck
-		err = tracer.Inject(span.Context(), opentracing.HTTPHeaders, carrier) //nolint:typecheck
+		carrier := opentracing.HTTPHeadersCarrier(c.Request.Header)
+		err = tracer.Inject(span.Context(), opentracing.HTTPHeaders, carrier)
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, t.GenErrMsg(c, "tracer注入失败", err))
 			return

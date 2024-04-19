@@ -13,7 +13,7 @@ type Jaeger struct {
 func InitTracer() *jConfig.Configuration {
 	return &jConfig.Configuration{
 		Sampler: &jConfig.SamplerConfig{
-			Type:  jaeger.SamplerTypeConst, //nolint:typecheck
+			Type:  jaeger.SamplerTypeConst,
 			Param: 1,
 		},
 		Reporter: &jConfig.ReporterConfig{
