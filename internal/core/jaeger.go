@@ -2,7 +2,7 @@ package core
 
 import (
 	"fmt"
-	// "github.com/uber/jaeger-client-go"
+	"github.com/uber/jaeger-client-go"
 	jConfig "github.com/uber/jaeger-client-go/config"
 )
 
