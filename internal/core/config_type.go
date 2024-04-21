@@ -64,7 +64,7 @@ type Lib struct {
 	Redis
 	ETCD
 	Consul
-	Jaeger
+	// Jaeger
 	Rocketmq
 }
 
