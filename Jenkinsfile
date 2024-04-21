@@ -113,7 +113,6 @@ pipeline {
                         sh """
                             export GO_HOME=${goHome}
                             export PATH=\$GO_HOME/bin:\$PATH
-                            export GOFLAGS="-mod=vendor"
                             ${goHome}/bin/golangci-lint run -v --timeout 5m -c ./.golangci.yml ./...
                         """
                     }
