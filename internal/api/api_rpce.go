@@ -25,7 +25,7 @@ type HandlerRPC struct {
 func (h *HandlerRPC) Register() *grpc.Server {
 	interceptorsBasicChoice := []grpc.UnaryServerInterceptor{
 		core.LoggerForRPC,
-		// h.MiddlewareRPC.TracingRPC.Trace,
+		h.MiddlewareRPC.TracingRPC.Trace,
 		h.MiddlewareRPC.ValidatorRPC.ValidateMetadata,
 		h.MiddlewareRPC.AuthRPC.ValidateSignature,
 	}
