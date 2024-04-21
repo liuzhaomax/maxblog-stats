@@ -14,7 +14,6 @@ import (
 func InitInjector() (*Injector, func(), error) {
 	wire.Build(
 		core.InitLogrus,
-		// core.InitGinEngine,
 		core.InitDB,
 		core.InitRedis,
 		core.InitTracer,
@@ -26,8 +25,6 @@ func InitInjector() (*Injector, func(), error) {
 		core.ResponseSet,
 		core.TransactionSet,
 		core.RocketMQSet,
-		// middleware.MwsSet,
-		// middleware.MiddlewareSet,
 		middleware_rpc.MwsRPCSet,
 		middleware_rpc.MiddlewareRPCSet,
 		InjectorSet,
