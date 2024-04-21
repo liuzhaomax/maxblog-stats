@@ -108,13 +108,11 @@ pipeline {
             steps {
                 echo "--------------------- Lint Start ---------------------"
                 script {
-                    timeout(time: 55, unit: "MINUTES") {
+                    timeout(time: 5, unit: "MINUTES") {
                         goHome = tool "go"
                         sh """
                             export GO_HOME=${goHome}
                             export PATH=\$GO_HOME/bin:\$PATH
-                            ${goHome}/bin/go mod tidy
-                            ${goHome}/bin/go mod vendor
                             ${goHome}/bin/golangci-lint run -v --timeout 5m -c ./.golangci.yml ./...
                         """
                     }
