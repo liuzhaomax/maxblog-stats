@@ -2,7 +2,7 @@ package core
 
 import (
 	"fmt"
-	j "github.com/uber/jaeger-client-go"
+	jaeger "github.com/uber/jaeger-client-go"
 	jConfig "github.com/uber/jaeger-client-go/config"
 )
 
@@ -13,7 +13,7 @@ type Jaeger struct {
 func InitTracer() *jConfig.Configuration {
 	return &jConfig.Configuration{
 		Sampler: &jConfig.SamplerConfig{
-			Type:  j.SamplerTypeConst,
+			Type:  jaeger.SamplerTypeConst,
 			Param: 1,
 		},
 		Reporter: &jConfig.ReporterConfig{
