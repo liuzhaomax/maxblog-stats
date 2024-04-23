@@ -29,10 +29,9 @@ func (c *Consul) ServiceRegister() error {
 	intPort, _ := strconv.Atoi(cfg.Server.Port)
 	agentServiceRegistration.Port = intPort
 	agentServiceRegistration.Tags = []string{cfg.App.Name, cfg.Server.Protocol}
-	serverAddr := fmt.Sprintf("http://%s:%s/health", cfg.Server.Host, cfg.Server.Port)
+	serverAddr := fmt.Sprintf("%s:%s", cfg.Server.Host, cfg.Server.Port)
 	check := api.AgentServiceCheck{
-		GRPC: serverAddr,
-		// HTTP:                           serverAddr,
+		GRPC:                           serverAddr,
 		Timeout:                        fmt.Sprintf("%ds", cfg.Lib.Consul.Timeout),
 		Interval:                       fmt.Sprintf("%ds", cfg.Lib.Consul.Interval),
 		DeregisterCriticalServiceAfter: fmt.Sprintf("%ds", cfg.Lib.Consul.DeregisterAfter),
