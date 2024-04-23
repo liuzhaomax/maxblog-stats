@@ -46,7 +46,6 @@ func (h *HandlerRPC) Register() *grpc.Server {
 
 	// 健康检查
 	healthCheck := health.NewServer()
-	healthCheck.SetServingStatus("healthcheck", grpc_health_v1.HealthCheckResponse_SERVING)
 	grpc_health_v1.RegisterHealthServer(server, healthCheck)
 
 	return server
