@@ -20,7 +20,6 @@ type BusinessStatsArticle struct {
 }
 
 func (b *BusinessStatsArticle) GetStatsArticleMain(ctx context.Context, empty *pb.Empty) (*pb.StatsArticleMainRes, error) {
-	// TODO prometheus
 	data := &pb.StatsArticleMainRes{}
 	err := b.Tx.ExecTrans(ctx, func(ctx context.Context) error {
 		err := b.Model.GetStatsArticleMain(ctx, data)
