@@ -25,17 +25,22 @@ type HandlerRPC struct {
 }
 
 func (h *HandlerRPC) Register() *grpc.Server {
+	// 健康检查
+	healthCheck := health.NewServer()
+	grpc_health_v1.RegisterHealthServer(grpc.NewServer(), healthCheck)
+
+	// TODO prometheus metrics 接口
+
+	// 拦截器
 	interceptorsBasicChoice := []grpc.UnaryServerInterceptor{
 		core.LoggerForRPC,
 		h.MiddlewareRPC.TracingRPC.Trace,
 		h.MiddlewareRPC.ValidatorRPC.ValidateMetadata,
 		h.MiddlewareRPC.AuthRPC.ValidateSignature,
 	}
-	// TODO prometheus metrics 接口
 	interceptorMap := map[string][]grpc.UnaryServerInterceptor{
 		"/StatsService/GetStatsArticleMain": interceptorsBasicChoice,
 	}
-
 	// 连接多个中间件
 	serverOpts := []grpc.ServerOption{}
 	serverOpts = append(serverOpts, grpc.UnaryInterceptor(middleware_rpc.ChainUnaryInterceptors(interceptorMap)))
@@ -43,10 +48,6 @@ func (h *HandlerRPC) Register() *grpc.Server {
 	server := grpc.NewServer(serverOpts...)
 	// 注册接口
 	pb.RegisterStatsServiceServer(server, h.BusinessRPC)
-
-	// 健康检查
-	healthCheck := health.NewServer()
-	grpc_health_v1.RegisterHealthServer(server, healthCheck)
 
 	return server
 }
