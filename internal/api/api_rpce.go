@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/google/wire"
+	"github.com/grpc-ecosystem/go-grpc-prometheus"
 	"github.com/liuzhaomax/maxblog-stats/internal/core"
 	"github.com/liuzhaomax/maxblog-stats/internal/middleware_rpc"
 	"github.com/liuzhaomax/maxblog-stats/src/api_stats_rpc/business"
@@ -31,7 +32,6 @@ func (h *HandlerRPC) Register() *grpc.Server {
 		h.MiddlewareRPC.ValidatorRPC.ValidateMetadata,
 		h.MiddlewareRPC.AuthRPC.ValidateSignature,
 	}
-	// TODO prometheus metrics 接口
 	interceptorMap := map[string][]grpc.UnaryServerInterceptor{
 		"/StatsService/GetStatsArticleMain": interceptorsBasicChoice,
 	}
@@ -47,6 +47,9 @@ func (h *HandlerRPC) Register() *grpc.Server {
 	// 健康检查
 	healthCheck := health.NewServer()
 	grpc_health_v1.RegisterHealthServer(server, healthCheck)
+
+	// prometheus
+	grpc_prometheus.Register(server)
 
 	return server
 }

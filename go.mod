@@ -9,6 +9,7 @@ require (
 	github.com/fsnotify/fsnotify v1.7.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/google/wire v0.5.0
+	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
 	github.com/hashicorp/consul/api v1.27.0
 	github.com/hashicorp/vault/api v1.10.0
 	github.com/lithammer/shortuuid v3.0.0+incompatible
