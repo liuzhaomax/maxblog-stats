@@ -50,7 +50,8 @@ func (h *HandlerRPC) Register() *grpc.Server {
 	healthCheck := health.NewServer()
 	grpc_health_v1.RegisterHealthServer(server, healthCheck)
 
-	// prometheus
+	// prometheus TODO 默认是9090提供http服务来提供metrics，需要使用gin来提供此服务，同时注册到consul，
+	// TODO 也就是一个rpc会启动两个服务，一个提供rpc接口，一个提供监控http接口
 	grpc_prometheus.Register(server)
 	http.Handle("/metrics", http.HandlerFunc(h.MetricsHandler))
 
