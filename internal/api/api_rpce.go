@@ -8,9 +8,11 @@ import (
 	"github.com/liuzhaomax/maxblog-stats/src/api_stats_rpc/business"
 	"github.com/liuzhaomax/maxblog-stats/src/api_stats_rpc/pb"
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"
 	"google.golang.org/grpc/health/grpc_health_v1"
+	"net/http"
 )
 
 var APIRPCSet = wire.NewSet(wire.Struct(new(HandlerRPC), "*"), wire.Bind(new(APIRPC), new(*HandlerRPC)))
@@ -50,6 +52,13 @@ func (h *HandlerRPC) Register() *grpc.Server {
 
 	// prometheus
 	grpc_prometheus.Register(server)
+	http.Handle("/metrics", http.HandlerFunc(h.MetricsHandler))
 
 	return server
+}
+
+func (h *HandlerRPC) MetricsHandler(w http.ResponseWriter, r *http.Request) {
+	promhttp.HandlerFor(h.PrometheusRegistry, promhttp.HandlerOpts{
+		Registry: h.PrometheusRegistry,
+	}).ServeHTTP(w, r)
 }
