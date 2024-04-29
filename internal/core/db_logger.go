@@ -5,6 +5,7 @@ import (
 	"errors"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
+	"google.golang.org/grpc/metadata"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"time"
@@ -49,6 +50,12 @@ func (l *GormLogger) Trace(ctx context.Context, begin time.Time, fc func() (sql 
 	traceId := ctx.Value(TraceId)
 	if c, ok := ctx.(*gin.Context); ok {
 		traceId = c.Request.Header.Get(TraceId)
+	}
+	if _, ok := ctx.(context.Context); ok {
+		md, ok := metadata.FromIncomingContext(ctx)
+		if ok {
+			traceId = md[TraceId][0]
+		}
 	}
 	// 通用字段
 	logFields := logrus.Fields{
