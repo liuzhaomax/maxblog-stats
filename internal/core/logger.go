@@ -156,7 +156,7 @@ func LoggerForHTTP() gin.HandlerFunc {
 		startTime := time.Now()
 		c.Next()
 		endTime := time.Now()
-		took := endTime.Sub(startTime)
+		took := endTime.Sub(startTime).Milliseconds()
 		statusCode := c.Writer.Status()
 
 		// json标准写法
@@ -237,7 +237,7 @@ func LoggerForRPC(ctx context.Context, req interface{}, _ *grpc.UnaryServerInfo,
 	startTime := time.Now()
 	res, err := handler(ctx, req)
 	endTime := time.Now()
-	took := endTime.Sub(startTime)
+	took := endTime.Sub(startTime).Milliseconds()
 	// json标准写法
 	logger.WithFields(LoggerFormat).WithFields(logrus.Fields{
 		"took": took,
