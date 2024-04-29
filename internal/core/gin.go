@@ -18,6 +18,5 @@ type Gin struct {
 func InitGinEngine() *gin.Engine {
 	gin.SetMode(GetConfig().Lib.Gin.RunMode) // debug, test, release
 	app := gin.Default()
-	app.Use(LoggerForHTTP()) // Gin使用logrus中间件处理日志
 	return app
 }
