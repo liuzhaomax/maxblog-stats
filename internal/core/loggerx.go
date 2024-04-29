@@ -48,23 +48,39 @@ func (l *Logger) Fail(code Code, desc string, err error) {
 }
 
 func (l *Logger) SucceedWithField(c *gin.Context, desc string) {
-	l.Logger.WithField(strings.ToLower(TraceId), c.Request.Header.Get(TraceId)).Debug(FormatCaller(true, GetCallerFileAndLine(callerLevel)))
-	l.Logger.WithField(strings.ToLower(TraceId), c.Request.Header.Get(TraceId)).Info(FormatInfo(desc))
+	l.Logger.WithField(strings.ToLower(TraceId), c.Request.Header.Get(TraceId)).
+		WithField(strings.ToLower(SpanId), c.Request.Header.Get(SpanId)).
+		Debug(FormatCaller(true, GetCallerFileAndLine(callerLevel)))
+	l.Logger.WithField(strings.ToLower(TraceId), c.Request.Header.Get(TraceId)).
+		WithField(strings.ToLower(SpanId), c.Request.Header.Get(SpanId)).
+		Info(FormatInfo(desc))
 }
 
 func (l *Logger) FailWithField(c *gin.Context, code Code, desc string, err error) {
-	l.Logger.WithField(strings.ToLower(TraceId), c.Request.Header.Get(TraceId)).Debug(FormatCaller(false, GetCallerFileAndLine(callerLevel)))
-	l.Logger.WithField(strings.ToLower(TraceId), c.Request.Header.Get(TraceId)).Info(FormatError(code, desc, err))
+	l.Logger.WithField(strings.ToLower(TraceId), c.Request.Header.Get(TraceId)).
+		WithField(strings.ToLower(SpanId), c.Request.Header.Get(SpanId)).
+		Debug(FormatCaller(false, GetCallerFileAndLine(callerLevel)))
+	l.Logger.WithField(strings.ToLower(TraceId), c.Request.Header.Get(TraceId)).
+		WithField(strings.ToLower(SpanId), c.Request.Header.Get(SpanId)).
+		Info(FormatError(code, desc, err))
 }
 
 func (l *Logger) SucceedWithFieldForRPC(ctx context.Context, desc string) {
 	md, _ := metadata.FromIncomingContext(ctx)
-	l.Logger.WithField(strings.ToLower(TraceId), SelectFromMetadata(md, TraceId)).Debug(FormatCaller(true, GetCallerFileAndLine(callerLevel)))
-	l.Logger.WithField(strings.ToLower(TraceId), SelectFromMetadata(md, TraceId)).Info(FormatInfo(desc))
+	l.Logger.WithField(strings.ToLower(TraceId), SelectFromMetadata(md, TraceId)).
+		WithField(strings.ToLower(SpanId), SelectFromMetadata(md, SpanId)).
+		Debug(FormatCaller(true, GetCallerFileAndLine(callerLevel)))
+	l.Logger.WithField(strings.ToLower(TraceId), SelectFromMetadata(md, TraceId)).
+		WithField(strings.ToLower(SpanId), SelectFromMetadata(md, SpanId)).
+		Info(FormatInfo(desc))
 }
 
 func (l *Logger) FailWithFieldForRPC(ctx context.Context, code Code, desc string, err error) {
 	md, _ := metadata.FromIncomingContext(ctx)
-	l.Logger.WithField(strings.ToLower(TraceId), SelectFromMetadata(md, TraceId)).Debug(FormatCaller(false, GetCallerFileAndLine(callerLevel)))
-	l.Logger.WithField(strings.ToLower(TraceId), SelectFromMetadata(md, TraceId)).Info(FormatError(code, desc, err))
+	l.Logger.WithField(strings.ToLower(TraceId), SelectFromMetadata(md, TraceId)).
+		WithField(strings.ToLower(SpanId), SelectFromMetadata(md, SpanId)).
+		Debug(FormatCaller(false, GetCallerFileAndLine(callerLevel)))
+	l.Logger.WithField(strings.ToLower(TraceId), SelectFromMetadata(md, TraceId)).
+		WithField(strings.ToLower(SpanId), SelectFromMetadata(md, SpanId)).
+		Info(FormatError(code, desc, err))
 }
