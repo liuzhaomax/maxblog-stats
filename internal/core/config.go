@@ -6,6 +6,7 @@ import (
 	"github.com/fsnotify/fsnotify"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
+	"time"
 )
 
 // 加载环境变量ENV，设置配置文件路径
@@ -86,10 +87,15 @@ func (cfg *Config) HandleLoadedConfig() func() {
 		}
 	}
 	if cfg.App.Enabled.Vault {
-		// 包含RSA, JWT secret, Salt, DownstreamID和Secret
-		cfg.GetSecret()
-		// 将已保存的RSA字符串转为结构体，并保存
-		cfg.ConvertRSAKeys()
+		go func() {
+			for {
+				// 包含RSA, JWT secret, Salt, DownstreamID和Secret
+				cfg.GetSecret()
+				// 将已保存的RSA字符串转为结构体，并保存
+				cfg.ConvertRSAKeys()
+				time.Sleep(time.Second * time.Duration(cfg.Lib.Vault.Interval))
+			}
+		}()
 	} else {
 		// 不适用vault需要自行设置jwt secret
 		cfg.App.JWTSecret = "liuzhaomax@163.com"

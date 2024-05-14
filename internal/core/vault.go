@@ -9,7 +9,8 @@ import (
 )
 
 type Vault struct {
-	Address string `mapstructure:"address"`
+	Address  string `mapstructure:"address"`
+	Interval int    `mapstructure:"interval"`
 }
 
 // vault access
@@ -129,8 +130,6 @@ func (cfg *Config) GetSecret() {
 			panic(err)
 		}
 	}
-	// 打印日志
-	LogSuccess("Vault: secret获取成功")
 }
 
 // PutRSA 新增和修改rsa
