@@ -117,13 +117,13 @@ func (cfg *Config) GetSecret() {
 	cfg.App.PublicKeyStr = puk
 	cfg.App.PrivateKeyStr = prk
 	// 读取downstream app id 和 secret
-	for _, downstream := range cfg.Downstreams {
-		downstream.Id, err = getSecret(ctx, KV, fmt.Sprintf("%s/%s", APP, downstream.Name), ID)
+	for i, downstream := range cfg.Downstreams {
+		cfg.Downstreams[i].Id, err = getSecret(ctx, KV, fmt.Sprintf("%s/%s", APP, downstream.Name), ID)
 		if err != nil {
 			LogFailure(VaultDenied, "Vault: downstream信息获取失败", err)
 			panic(err)
 		}
-		downstream.Secret, err = getSecret(ctx, KV, fmt.Sprintf("%s/%s", APP, downstream.Name), SECRET)
+		cfg.Downstreams[i].Secret, err = getSecret(ctx, KV, fmt.Sprintf("%s/%s", APP, downstream.Name), SECRET)
 		if err != nil {
 			LogFailure(VaultDenied, "Vault: downstream信息获取失败", err)
 			panic(err)
