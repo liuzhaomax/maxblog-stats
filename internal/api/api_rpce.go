@@ -32,7 +32,7 @@ func (h *HandlerRPC) Register() *grpc.Server {
 		h.MiddlewareRPC.TracingRPC.Trace,
 		core.LoggerForRPC,
 		h.MiddlewareRPC.ValidatorRPC.ValidateMetadata,
-		h.MiddlewareRPC.AuthRPC.ValidateSignature,
+		// h.MiddlewareRPC.AuthRPC.ValidateSignature,
 	}
 	interceptorMap := map[string][]grpc.UnaryServerInterceptor{
 		"/StatsService/GetStatsArticleMain": interceptorsBasicChoice,
